@@ -29,7 +29,7 @@ This report provides a comprehensive analysis of the `songkick.py` web scraping 
 ### 🔴 Critical Issues
 
 #### 1. **Hardcoded URL (Low Severity)**
-- **Location**: Line 104
+- **Location**: `GIGOGRAPHY_URL` constant definition
 - **Issue**: The gigography URL is hardcoded for a specific user (`outspaced`)
 - **Impact**: Script is not reusable for other users
 - **Recommendation**: Accept URL as command-line argument or parameter
@@ -42,13 +42,13 @@ This report provides a comprehensive analysis of the `songkick.py` web scraping 
 ### 🟡 Medium Priority Issues
 
 #### 3. **Incomplete Type Hints**
-- **Location**: Lines 6, 8
-- **Issue**: Function return type not specified, `Any` type is too broad
+- **Location**: `scrape_gigography` function signature
+- **Issue**: Function return type not specified, parameter types not specified
 - **Current**: `def scrape_gigography(base_url, filename = "songkick_gigography.csv"):`
 - **Recommendation**: `def scrape_gigography(base_url: str, filename: str = "songkick_gigography.csv") -> None:`
 
 #### 4. **Weak Error Handling for JSON Parsing**
-- **Location**: Lines 34, 37-38
+- **Location**: JSON-LD parsing loop in the main scraping function
 - **Issue**: Silent failure with `continue` - errors are caught but not logged
 - **Impact**: Failed parsing goes unnoticed
 - **Recommendation**: Log the error details or count failures
@@ -64,7 +64,7 @@ This report provides a comprehensive analysis of the `songkick.py` web scraping 
 - **Recommendation**: Add `requirements.txt` with versions
 
 #### 7. **Magic Numbers**
-- **Location**: Line 81 (`time.sleep(1.5)`)
+- **Location**: Rate limiting sleep call (`time.sleep(1.5)`)
 - **Issue**: Hardcoded delay value
 - **Recommendation**: Define as a constant (e.g., `REQUEST_DELAY_SECONDS = 1.5`)
 
@@ -79,18 +79,18 @@ This report provides a comprehensive analysis of the `songkick.py` web scraping 
 - **Location**: Mixed use of f-strings and `.format()`
 - **Recommendation**: Use f-strings consistently (already mostly done)
 
-#### 10. **Unused Import**
-- **Location**: Line 6 - `from typing import List, Dict, Any`
-- **Issue**: `List`, `Dict`, and `Any` are imported but only used in comments or could be unused
-- **Recommendation**: Either use them in proper type hints or remove
+#### 10. **Underutilized Type Hints**
+- **Location**: `from typing import List, Dict, Any` import statement
+- **Issue**: `List`, `Dict`, and `Any` are imported but not used extensively in type annotations
+- **Recommendation**: Expand type hints throughout the code to make better use of these imports
 
 #### 11. **CSV Encoding**
-- **Location**: Line 94
+- **Location**: CSV file writing section
 - **Issue**: While UTF-8 is specified, no handling for potential encoding issues
 - **Recommendation**: Add error handling for encoding problems
 
 #### 12. **Spacing Inconsistency**
-- **Location**: Line 8
+- **Location**: Function parameter default value
 - **Issue**: Space before `=` in default parameter: `filename = "songkick_gigography.csv"`
 - **Recommendation**: Should be `filename="songkick_gigography.csv"` per PEP 8
 

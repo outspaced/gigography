@@ -21,10 +21,10 @@ done
 ### 🔴 Critical Issues
 
 #### 1. **Unquoted Variables**
-- **Location**: Line 2, 4
-- **Issue**: `$i` and `$SONGKICK_API_KEY` are not quoted
+- **Location**: Lines 2 and 4 (loop variable and output redirection)
+- **Issue**: `$i` and `$SONGKICK_API_KEY` are not quoted in the curl command
 - **Risk**: Will break if values contain spaces or special characters
-- **Fix**: Use `"$i"` and `"$apikey"` in the curl command
+- **Fix**: Use `"$i"` and properly quote variable expansions in the curl command
 
 #### 2. **No Error Checking**
 - **Issue**: Script doesn't check if curl commands succeed
@@ -32,8 +32,8 @@ done
 - **Recommendation**: Add `set -e` at the start or check `$?` after curl
 
 #### 3. **Command Substitution with Backticks**
-- **Location**: Line 2: `` `seq 0 10` ``
-- **Issue**: Old-style command substitution (backticks are deprecated)
+- **Location**: Loop initialization (`` `seq 0 10` ``)
+- **Issue**: Old-style command substitution using backticks (deprecated style)
 - **Recommendation**: Use modern syntax: `$(seq 0 10)`
 
 #### 4. **Missing API Key Validation**
@@ -86,16 +86,14 @@ done
 ### 🔒 Security Issues
 
 #### 1. **API Key in URL (HIGH RISK)**
-- **Issue**: API key passed in URL parameters
+- **Issue**: API key passed in URL parameters via `-d` flag
 - **Risk**: 
   - Appears in shell history
   - May appear in server logs
   - Visible in process list (`ps aux`)
 - **Severity**: HIGH
-- **Recommendation**: Use `--header` for API key instead:
-  ```bash
-  curl -H "Authorization: Bearer $SONGKICK_API_KEY" ...
-  ```
+- **Note**: This may be unavoidable if the Songkick API requires the key as a query parameter. Check API documentation for alternative authentication methods.
+- **Mitigation**: At minimum, document this security consideration
 
 #### 2. **No HTTPS Verification**
 - **Issue**: curl doesn't explicitly verify SSL certificates
