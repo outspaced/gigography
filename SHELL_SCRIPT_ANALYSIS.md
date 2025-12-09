@@ -21,10 +21,11 @@ done
 ### 🔴 Critical Issues
 
 #### 1. **Unquoted Variables**
-- **Location**: Lines 2 and 4 (loop variable and output redirection)
-- **Issue**: `$i` and `$SONGKICK_API_KEY` are not quoted in the curl command
-- **Risk**: Will break if values contain spaces or special characters
-- **Fix**: Use `"$i"` and properly quote variable expansions in the curl command
+- **Location**: Line 4 (output redirection `> $i.xml`)
+- **Issue**: `$i` is not quoted in the output redirection
+- **Risk**: Will break if the variable contains spaces or special characters
+- **Fix**: Use `> "$i.xml"` for the output redirection
+- **Note**: Variables within the `-d` string are properly quoted, and `$i` in `seq` is less critical but should still be quoted per best practices
 
 #### 2. **No Error Checking**
 - **Issue**: Script doesn't check if curl commands succeed
@@ -85,15 +86,15 @@ done
 
 ### 🔒 Security Issues
 
-#### 1. **API Key in URL (HIGH RISK)**
-- **Issue**: API key passed in URL parameters via `-d` flag
+#### 1. **API Key Exposure (HIGH RISK)**
+- **Issue**: API key visible in command-line arguments (via `-d` flag)
 - **Risk**: 
-  - Appears in shell history
-  - May appear in server logs
   - Visible in process list (`ps aux`)
+  - Appears in shell history
+  - The `-G` flag converts POST data to GET URL parameters, potentially exposing the key in server access logs
 - **Severity**: HIGH
-- **Note**: This may be unavoidable if the Songkick API requires the key as a query parameter. Check API documentation for alternative authentication methods.
-- **Mitigation**: At minimum, document this security consideration
+- **Note**: The `-G` flag causes curl to send the data as URL query parameters. This is particularly problematic for sensitive data like API keys.
+- **Mitigation**: If the API supports it, use POST without `-G` to send the API key in the request body instead of the URL. Otherwise, document this security risk.
 
 #### 2. **No HTTPS Verification**
 - **Issue**: curl doesn't explicitly verify SSL certificates
