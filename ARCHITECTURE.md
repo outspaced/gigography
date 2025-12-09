@@ -258,7 +258,7 @@ Threats:
 
 ```
 Metrics (Python Script):
-├── Requests/second: ~0.67 (1.5s delay)
+├── Requests/second: ~0.67 max (1.5s delay between requests)
 ├── Memory usage: O(n) where n = number of gigs
 ├── Network bandwidth: ~280KB per page (HTML)
 └── Disk I/O: Single write at completion

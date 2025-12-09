@@ -9,9 +9,9 @@ This repository has been comprehensively analyzed. View the detailed reports:
 | Document | Description | Size |
 |----------|-------------|------|
 | [ANALYSIS_SUMMARY.md](ANALYSIS_SUMMARY.md) | Executive summary with scores and key findings | 4.9KB |
-| [CODE_ANALYSIS.md](CODE_ANALYSIS.md) | Detailed Python script analysis | 8.2KB |
-| [SHELL_SCRIPT_ANALYSIS.md](SHELL_SCRIPT_ANALYSIS.md) | Bash script analysis with security concerns | 6.0KB |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System architecture and data flow | 7.8KB |
+| [CODE_ANALYSIS.md](CODE_ANALYSIS.md) | Detailed Python script analysis | 8.4KB |
+| [SHELL_SCRIPT_ANALYSIS.md](SHELL_SCRIPT_ANALYSIS.md) | Bash script analysis with security concerns | 6.5KB |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | System architecture and data flow | 9.3KB |
 
 ### Quick Scores
 

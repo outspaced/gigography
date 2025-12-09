@@ -33,7 +33,7 @@ done
 - **Recommendation**: Add `set -e` at the start or check `$?` after curl
 
 #### 3. **Command Substitution with Backticks**
-- **Location**: Loop initialization (`` `seq 0 10` ``)
+- **Location**: Loop initialization uses `` `seq 0 10` ``
 - **Issue**: Old-style command substitution using backticks (deprecated style)
 - **Recommendation**: Use modern syntax: `$(seq 0 10)`
 
