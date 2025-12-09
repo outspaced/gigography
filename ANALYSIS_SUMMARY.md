@@ -41,7 +41,7 @@ This repository contains a web scraping solution for extracting gigography (conc
 - ✅ Works with Songkick API
 
 **Critical Issues:**
-- 🔴 **SECURITY**: API key exposed in URL parameters (visible in logs/process list)
+- 🔴 **SECURITY**: API key exposed in URL parameters via `-G` and `-d` flag combination (visible in logs/process list)
 - 🔴 No error checking
 - 🔴 Unquoted variables
 - 🔴 Hardcoded username and page range

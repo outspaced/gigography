@@ -23,9 +23,9 @@ done
 #### 1. **Unquoted Variables**
 - **Location**: Line 4 (output redirection `> $i.xml`)
 - **Issue**: `$i` is not quoted in the output redirection
-- **Risk**: Will break if the variable contains spaces or special characters
+- **Risk**: While `$i` from `seq 0 10` only produces integers, unquoted variables are a best practice violation and could cause issues if the script is modified
 - **Fix**: Use `> "$i.xml"` for the output redirection
-- **Note**: Variables within the `-d` string are properly quoted, and `$i` in `seq` is less critical but should still be quoted per best practices
+- **Note**: Variables within the `-d` string are properly quoted
 
 #### 2. **No Error Checking**
 - **Issue**: Script doesn't check if curl commands succeed
@@ -87,14 +87,14 @@ done
 ### 🔒 Security Issues
 
 #### 1. **API Key Exposure (HIGH RISK)**
-- **Issue**: API key visible in command-line arguments (via `-d` flag)
+- **Issue**: API key visible in command-line arguments and URL
 - **Risk**: 
   - Visible in process list (`ps aux`)
   - Appears in shell history
-  - The `-G` flag converts POST data to GET URL parameters, potentially exposing the key in server access logs
+  - The combination of `-G` (GET) and `-d` (data) flags converts the data to URL query parameters, exposing the key in server access logs
 - **Severity**: HIGH
-- **Note**: The `-G` flag causes curl to send the data as URL query parameters. This is particularly problematic for sensitive data like API keys.
-- **Mitigation**: If the API supports it, use POST without `-G` to send the API key in the request body instead of the URL. Otherwise, document this security risk.
+- **Technical Detail**: The `-d` flag normally sends data as POST form data, but the `-G` flag overrides this to append the data as URL query parameters. This is particularly problematic for sensitive data like API keys.
+- **Mitigation**: If the API supports it, remove the `-G` flag to send the API key in the POST request body instead of the URL. Otherwise, document this security risk.
 
 #### 2. **No HTTPS Verification**
 - **Issue**: curl doesn't explicitly verify SSL certificates
